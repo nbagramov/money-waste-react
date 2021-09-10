@@ -1,0 +1,60 @@
+.top-elements-container {
+    width: 70%;
+}
+
+.title {
+    font-weight: 300;
+    font-style: italic;
+}
+
+.get-info-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.input-container-where {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 40%;
+}
+
+.input-container-how-much {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 20%;
+}
+
+.text-input {
+    font-size: 11px;
+}
+
+.input-where {
+    width: 100%;
+    padding-left: 5px;
+    margin-top: 5px;
+    min-height: 30px;
+}
+.input-how-much{
+    width: 100%;
+    padding-left: 5px;
+    margin-top: 5px;
+    min-height: 30px;
+}
+
+.button-container {
+    display: flex;
+    align-items: flex-end;
+    width: 15%;
+}
+.button {
+    width: 100%;
+    height: 60%;
+    background-color: aquamarine;
+    border-width: 0;
+    border-radius: 3px;
+}

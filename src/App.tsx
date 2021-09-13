@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import TopElements from './components/topElements';
+import TotalPrice from './components/totalPrice';
+import ShoppingList from './components/shoppingList';
+import { IPurchase } from './utils/interfaces';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const purchases: IPurchase[] = [
+    {
+        id: 0,
+        place: 'shop1',
+        price: 10000,
+        date: '03.04.20',
+        isEdit: false,
+    },
+    {
+        id: 1,
+        place: 'shop2',
+        price: 12000,
+        date: '05.11.20',
+        isEdit: false,
+    },
+    {
+        id: 2,
+        place: 'shop3',
+        price: 8000,
+        date: '25.07.21',
+        isEdit: false,
+    },
+]
+
+const App = (): JSX.Element => {
+    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases)
+    const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0)
+
+    const addPurchase = (purchase: IPurchase) => {
+        setPurchaseList([...purchaseList, purchase])
+    }
+
+    return (
+        <div className="App">
+            <TopElements addPurchase={addPurchase} />
+            <TotalPrice totalPrice={totalPrice}/>
+            <ShoppingList purchaseList={purchaseList} />
+        </div>
+    );
 }
 
 export default App;

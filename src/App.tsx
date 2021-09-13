@@ -7,18 +7,21 @@ import './App.css';
 
 const purchases: IPurchase[] = [
     {
+        id: 0,
         place: 'shop1',
         price: 10000,
         date: '03.04.20',
         isEdit: false,
     },
     {
+        id: 1,
         place: 'shop2',
         price: 12000,
         date: '05.11.20',
         isEdit: false,
     },
     {
+        id: 2,
         place: 'shop3',
         price: 8000,
         date: '25.07.21',
@@ -27,21 +30,18 @@ const purchases: IPurchase[] = [
 ]
 
 const App = (): JSX.Element => {
-    const [purchase, setPurchase] = useState<IPurchase | undefined>()
     const [shoppingList, setShoppingList] = useState<IPurchase[]>(purchases)
+    const totalPrice = shoppingList.reduce((total , item) => total + item.price, 0)
 
-    if (purchase) {
-        setShoppingList(() => [...shoppingList, purchase])
-        setPurchase(undefined)
+    const addPurchase = (purchase: IPurchase) => {
+        setShoppingList([...shoppingList, purchase])
     }
 
     return (
         <div className="App">
-            <header className="App-header">
-                <TopElements getPurchase={(purchase) => setPurchase(purchase)}/>
-                <TotalPrice shoppingList={shoppingList}/>
-                <ShoppingList shoppingList={shoppingList} />
-            </header>
+            <TopElements addPurchase={addPurchase} />
+            <TotalPrice totalPrice={totalPrice}/>
+            <ShoppingList shoppingList={shoppingList} />
         </div>
     );
 }

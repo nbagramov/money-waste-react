@@ -4,18 +4,19 @@ import { getDate } from '../../utils/getDate';
 import './styles.css'
 
 interface TopElementsProps {
-    getPurchase: (arg0: IPurchase) => void;
+    addPurchase: (arg0: IPurchase) => void;
 }
 
-const TopElements = ({getPurchase = (): void => {}}: TopElementsProps): JSX.Element => {
+const TopElements = ({addPurchase = (): void => {}}: TopElementsProps): JSX.Element => {
     const [place, setPlace] = useState<string>('')
     const [price, setPrice] = useState<number | undefined>()
 
-
-    const getNewPurchase = () => {
+    const onSubmit = () => {
         const date = getDate()
+        const id = new Date().getTime();
+
         if (place && (price || price === 0)) {
-            getPurchase({place, price, date,  isEdit: false})
+            addPurchase({id, place, price, date,  isEdit: false})
             setPlace('')
             setPrice(undefined)
         }
@@ -45,7 +46,7 @@ const TopElements = ({getPurchase = (): void => {}}: TopElementsProps): JSX.Elem
                     />
                 </div>
                 <div className="button-container">
-                    <button className="button" onClick={getNewPurchase}>Добавить</button>
+                    <button className="button" onClick={onSubmit}>Добавить</button>
                 </div>
             </div>
         </div>

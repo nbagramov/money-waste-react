@@ -36,12 +36,28 @@ const App = (): JSX.Element => {
     const addPurchase = (purchase: IPurchase) => {
         setPurchaseList([...purchaseList, purchase])
     }
+    const editPurchase = (purchase: IPurchase) => {
+        purchase.isEdit = !purchase.isEdit
+        setPurchaseList([...purchaseList])
+    }
+    const deletePurchase = (purchaseId: number) => {
+        purchaseList.forEach((purchase, index) => {
+            if (purchaseId === purchase.id) {
+                purchaseList.splice(index, 1)
+            }
+        })
+        setPurchaseList([...purchaseList])
+    }
 
     return (
         <div className="App">
             <TopElements addPurchase={addPurchase} />
             <TotalPrice totalPrice={totalPrice}/>
-            <ShoppingList purchaseList={purchaseList} />
+            <ShoppingList
+                purchaseList={purchaseList}
+                editPurchase={editPurchase}
+                deletePurchase={deletePurchase}
+            />
         </div>
     );
 }

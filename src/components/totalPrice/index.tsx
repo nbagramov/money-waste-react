@@ -1,15 +1,13 @@
-import React from "react";
-import { ShoppingProps } from "../../utils/interfaces";
+import React from 'react';
+import { IPurchase } from '../../utils/interfaces';
 import './styles.css'
 
-const TotalPrice = ({shoppingList}: ShoppingProps): JSX.Element => {
-    let totalPrice = 0
-    shoppingList.map((purchase) => {
-        if (purchase.price) {
-            totalPrice = totalPrice + purchase.price
-        }
-        return totalPrice;
-    })
+interface ShoppingListProps {
+    shoppingList: IPurchase[]
+}
+
+const TotalPrice = ({shoppingList}: ShoppingListProps): JSX.Element => {
+    let totalPrice = shoppingList.reduce((total , item) => total + item.price, 0)
 
     return(
         <div className="total-price-container">

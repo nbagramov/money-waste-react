@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import TopElements from "./components/topElements";
-import TotalPrice from "./components/totalPrice";
-import ShoppingList from "./components/shoppingList";
-import { IShopping } from "./utils/interfaces";
+import React, { useState } from 'react';
+import TopElements from './components/topElements';
+import TotalPrice from './components/totalPrice';
+import ShoppingList from './components/shoppingList';
+import { IPurchase } from './utils/interfaces';
 import './App.css';
 
-const bought: IShopping[] = [
+const purchases: IPurchase[] = [
     {
         place: 'shop1',
         price: 10000,
@@ -27,26 +27,18 @@ const bought: IShopping[] = [
 ]
 
 const App = (): JSX.Element => {
-    const [purchase, setPurchase] = useState<IShopping>()
-    const [shoppingList, setShoppingList] = useState<IShopping[]>(bought)
+    const [purchase, setPurchase] = useState<IPurchase | undefined>()
+    const [shoppingList, setShoppingList] = useState<IPurchase[]>(purchases)
 
-    useEffect(() => {
-        if (purchase) {
-            setShoppingList(() => [...shoppingList, purchase])
-        }
-    }, [purchase])
-
-    console.log(shoppingList)
-
-    const getPurchase = (purchase: IShopping) => {
-        const {place, price, date} = purchase;
-        setPurchase({place, price, date, isEdit: false})
+    if (purchase) {
+        setShoppingList(() => [...shoppingList, purchase])
+        setPurchase(undefined)
     }
 
     return (
         <div className="App">
             <header className="App-header">
-                <TopElements getPurchase={getPurchase}/>
+                <TopElements getPurchase={(purchase) => setPurchase(purchase)}/>
                 <TotalPrice shoppingList={shoppingList}/>
                 <ShoppingList shoppingList={shoppingList} />
             </header>

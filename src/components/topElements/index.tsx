@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import { TopElementsProps } from "../../utils/interfaces";
+import { IPurchase } from '../../utils/interfaces';
+import { getDate } from '../../utils/getDate';
 import './styles.css'
+
+interface TopElementsProps {
+    getPurchase: (arg0: IPurchase) => void;
+}
 
 const TopElements = ({getPurchase = (): void => {}}: TopElementsProps): JSX.Element => {
     const [place, setPlace] = useState<string>('')
-    const [price, setPrice] = useState<number>()
+    const [price, setPrice] = useState<number | undefined>()
 
-    const getDate = () => {
-        const today = new Date()
-        let month: number | string = today.getMonth() + 1;
-        if (month < 10){ month = '0' + month }
-        return (today.getDate() + '.' + month + '.' + today.getFullYear());
-    }
 
     const getNewPurchase = () => {
         const date = getDate()
-        if (place && price) {
-            getPurchase({place, price, date})
+        if (place && (price || price === 0)) {
+            getPurchase({place, price, date,  isEdit: false})
             setPlace('')
+            setPrice(undefined)
         }
     }
 
@@ -37,6 +37,7 @@ const TopElements = ({getPurchase = (): void => {}}: TopElementsProps): JSX.Elem
                 <div className="input-container-how-much">
                     <span className="text-input">Сколько было потрачено:</span>
                     <input
+                        value={price === undefined ? '' : price}
                         className="input-how-much"
                         placeholder="Сколько было потрачено"
                         type="number"

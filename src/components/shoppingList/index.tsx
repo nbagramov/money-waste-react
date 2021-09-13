@@ -5,13 +5,13 @@ import { IPurchase } from '../../utils/interfaces';
 import './styles.css'
 
 interface PurchaseListProps {
-    shoppingList: IPurchase[]
+    purchaseList: IPurchase[]
 }
 
-const ShoppingList = ({shoppingList}: PurchaseListProps): JSX.Element => {
+const ShoppingList = ({purchaseList}: PurchaseListProps): JSX.Element => {
     return (
         <div className="shopping-list-container">
-            {shoppingList.map((purchase, index) => {
+            {purchaseList.map((purchase, index) => {
                 return (
                     purchase.isEdit
                         ? (

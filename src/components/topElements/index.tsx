@@ -9,16 +9,15 @@ interface TopElementsProps {
 
 const TopElements = ({addPurchase = (): void => {}}: TopElementsProps): JSX.Element => {
     const [place, setPlace] = useState<string>('')
-    const [price, setPrice] = useState<number | undefined>()
+    const [price, setPrice] = useState<number | null>(null)
 
     const onSubmit = () => {
-        const date = getDate()
-        const id = new Date().getTime();
-
         if (place && (price || price === 0)) {
+            const date = getDate()
+            const id = new Date().getTime();
             addPurchase({id, place, price, date,  isEdit: false})
             setPlace('')
-            setPrice(undefined)
+            setPrice(null)
         }
     }
 
@@ -38,7 +37,7 @@ const TopElements = ({addPurchase = (): void => {}}: TopElementsProps): JSX.Elem
                 <div className="input-container-how-much">
                     <span className="text-input">Сколько было потрачено:</span>
                     <input
-                        value={price === undefined ? '' : price}
+                        value={price === null ? '' : price}
                         className="input-how-much"
                         placeholder="Сколько было потрачено"
                         type="number"

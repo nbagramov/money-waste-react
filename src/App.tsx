@@ -30,18 +30,18 @@ const purchases: IPurchase[] = [
 ]
 
 const App = (): JSX.Element => {
-    const [shoppingList, setShoppingList] = useState<IPurchase[]>(purchases)
-    const totalPrice = shoppingList.reduce((total , item) => total + item.price, 0)
+    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases)
+    const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0)
 
     const addPurchase = (purchase: IPurchase) => {
-        setShoppingList([...shoppingList, purchase])
+        setPurchaseList([...purchaseList, purchase])
     }
 
     return (
         <div className="App">
             <TopElements addPurchase={addPurchase} />
             <TotalPrice totalPrice={totalPrice}/>
-            <ShoppingList shoppingList={shoppingList} />
+            <ShoppingList purchaseList={purchaseList} />
         </div>
     );
 }

@@ -27,27 +27,38 @@ const purchases: IPurchase[] = [
         date: '25.07.21',
         isEdit: false,
     },
-]
+];
 
 const App = (): JSX.Element => {
-    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases)
-    const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0)
+    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases);
+    const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0);
 
     const addPurchase = (purchase: IPurchase) => {
-        setPurchaseList([...purchaseList, purchase])
-    }
+        setPurchaseList([...purchaseList, purchase]);
+    };
+
+    const onPlaceChange = (place: string, purchase: IPurchase) => {
+        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
+        purchaseList[purchaseIndex].place = place;
+        setPurchaseList([...purchaseList]);
+    };
+
+    const onPriceChange = (price: number, purchase: IPurchase) => {
+        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
+        purchaseList[purchaseIndex].price = price;
+        setPurchaseList([...purchaseList]);
+    };
+
     const editPurchase = (purchase: IPurchase) => {
-        purchase.isEdit = !purchase.isEdit
-        setPurchaseList([...purchaseList])
-    }
+        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
+        purchaseList[purchaseIndex].isEdit = !purchaseList[purchaseIndex].isEdit;
+        setPurchaseList([...purchaseList]);
+    };
+
     const deletePurchase = (purchaseId: number) => {
-        purchaseList.forEach((purchase, index) => {
-            if (purchaseId === purchase.id) {
-                purchaseList.splice(index, 1)
-            }
-        })
-        setPurchaseList([...purchaseList])
-    }
+        const newPurchaseList = purchaseList.filter((purchase) => purchaseId !== purchase.id);
+        setPurchaseList([...newPurchaseList]);
+    };
 
     return (
         <div className="App">
@@ -57,9 +68,11 @@ const App = (): JSX.Element => {
                 purchaseList={purchaseList}
                 editPurchase={editPurchase}
                 deletePurchase={deletePurchase}
+                onPlaceChange ={onPlaceChange}
+                onPriceChange ={onPriceChange}
             />
         </div>
     );
-}
+};
 
 export default App;

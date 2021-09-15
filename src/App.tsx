@@ -27,23 +27,61 @@ const purchases: IPurchase[] = [
         date: '25.07.21',
         isEdit: false,
     },
-]
+];
 
 const App = (): JSX.Element => {
-    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases)
-    const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0)
+    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases);
+    const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0);
 
     const addPurchase = (purchase: IPurchase) => {
-        setPurchaseList([...purchaseList, purchase])
-    }
+        setPurchaseList([...purchaseList, purchase]);
+    };
+
+    const onPlaceChange = (place: string, purchase: IPurchase) => {
+        const newPurchaseList = [...purchaseList];
+        const purchaseIndex = newPurchaseList.findIndex((item) => item.id === purchase.id);
+        if (purchaseIndex != -1) {
+            newPurchaseList[purchaseIndex].place = place;
+            setPurchaseList([...newPurchaseList]);
+        }
+    };
+
+    const onPriceChange = (price: number, purchase: IPurchase) => {
+        const newPurchaseList = [...purchaseList];
+        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
+        if (purchaseIndex != -1) {
+            newPurchaseList[purchaseIndex].price = price;
+            setPurchaseList([...newPurchaseList]);
+        }
+    };
+
+    const editPurchase = (purchase: IPurchase) => {
+        const newPurchaseList = [...purchaseList];
+        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
+        if (purchaseIndex != -1) {
+            newPurchaseList[purchaseIndex].isEdit = !newPurchaseList[purchaseIndex].isEdit;
+            setPurchaseList([...newPurchaseList]);
+        }
+    };
+
+    const deletePurchase = (purchaseId: number) => {
+        const newPurchaseList = purchaseList.filter((purchase) => purchaseId !== purchase.id);
+        setPurchaseList([...newPurchaseList]);
+    };
 
     return (
         <div className="App">
             <TopElements addPurchase={addPurchase} />
             <TotalPrice totalPrice={totalPrice}/>
-            <ShoppingList purchaseList={purchaseList} />
+            <ShoppingList
+                purchaseList={purchaseList}
+                editPurchase={editPurchase}
+                deletePurchase={deletePurchase}
+                onPlaceChange ={onPlaceChange}
+                onPriceChange ={onPriceChange}
+            />
         </div>
     );
-}
+};
 
 export default App;

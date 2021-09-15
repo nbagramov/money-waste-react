@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { IPurchase } from '../../utils/interfaces';
 import { getDate } from '../../utils/getDate';
-import './styles.css'
+import './styles.css';
 
 interface TopElementsProps {
-    addPurchase: (arg0: IPurchase) => void;
+  addPurchase: (arg0: IPurchase) => void;
 }
 
-const TopElements = ({addPurchase = (): void => {}}: TopElementsProps): JSX.Element => {
-    const [place, setPlace] = useState<string>('')
-    const [price, setPrice] = useState<number | null>(null)
+const TopElements = ({addPurchase}: TopElementsProps): JSX.Element => {
+    const [place, setPlace] = useState<string>('');
+    const [price, setPrice] = useState<number | null>(null);
 
     const onSubmit = () => {
         if (place && (price || price === 0)) {
-            const date = getDate()
+            const date = getDate();
             const id = new Date().getTime();
-            addPurchase({id, place, price, date,  isEdit: false})
-            setPlace('')
-            setPrice(null)
+            addPurchase({id, place, price, date,  isEdit: false});
+            setPlace('');
+            setPrice(null);
         }
-    }
+    };
 
     return (
         <div className="top-elements-container">
@@ -49,7 +49,7 @@ const TopElements = ({addPurchase = (): void => {}}: TopElementsProps): JSX.Elem
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default TopElements;

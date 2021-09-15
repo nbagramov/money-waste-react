@@ -1,16 +1,16 @@
 import React from 'react';
-import './styles.css'
+import './styles.css';
 
 interface TotalPriceProps {
-    totalPrice: number
+  totalPrice: number
 }
 
 const TotalPrice = ({totalPrice}: TotalPriceProps): JSX.Element => {
-    return(
-        <div className="total-price-container">
-            <span className="total-price">Итого: {totalPrice} р.</span>
-        </div>
-    )
-}
+  return(
+    <div className="total-price-container">
+      <span className="total-price">Итого: {totalPrice} р.</span>
+    </div>
+  );
+};
 
 export default TotalPrice;

@@ -5,3 +5,10 @@ export interface IPurchase {
     date: string,
     isEdit: boolean,
 }
+
+export interface Action {
+    type: string,
+    purchase: IPurchase,
+    place?: string,
+    price?: number,
+}

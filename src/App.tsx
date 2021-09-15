@@ -1,84 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createPurchase,
+  editPurchase,
+  deletePurchase,
+  changePlace,
+  changePrice
+} from './store/actions';
 import TopElements from './components/topElements';
 import TotalPrice from './components/totalPrice';
 import ShoppingList from './components/shoppingList';
 import { IPurchase } from './utils/interfaces';
 import './App.css';
 
-const purchases: IPurchase[] = [
-    {
-        id: 0,
-        place: 'shop1',
-        price: 10000,
-        date: '03.04.20',
-        isEdit: false,
-    },
-    {
-        id: 1,
-        place: 'shop2',
-        price: 12000,
-        date: '05.11.20',
-        isEdit: false,
-    },
-    {
-        id: 2,
-        place: 'shop3',
-        price: 8000,
-        date: '25.07.21',
-        isEdit: false,
-    },
-];
-
 const App = (): JSX.Element => {
-    const [purchaseList, setPurchaseList] = useState<IPurchase[]>(purchases);
+    const dispatch = useDispatch();
+    const purchaseList: IPurchase[] = useSelector<IPurchase[], IPurchase[]>(state => state);
     const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0);
-
-    const addPurchase = (purchase: IPurchase) => {
-        setPurchaseList([...purchaseList, purchase]);
-    };
-
-    const onPlaceChange = (place: string, purchase: IPurchase) => {
-        const newPurchaseList = [...purchaseList];
-        const purchaseIndex = newPurchaseList.findIndex((item) => item.id === purchase.id);
-        if (purchaseIndex != -1) {
-            newPurchaseList[purchaseIndex].place = place;
-            setPurchaseList([...newPurchaseList]);
-        }
-    };
-
-    const onPriceChange = (price: number, purchase: IPurchase) => {
-        const newPurchaseList = [...purchaseList];
-        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
-        if (purchaseIndex != -1) {
-            newPurchaseList[purchaseIndex].price = price;
-            setPurchaseList([...newPurchaseList]);
-        }
-    };
-
-    const editPurchase = (purchase: IPurchase) => {
-        const newPurchaseList = [...purchaseList];
-        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
-        if (purchaseIndex != -1) {
-            newPurchaseList[purchaseIndex].isEdit = !newPurchaseList[purchaseIndex].isEdit;
-            setPurchaseList([...newPurchaseList]);
-        }
-    };
-
-    const deletePurchase = (purchaseId: number) => {
-        const newPurchaseList = purchaseList.filter((purchase) => purchaseId !== purchase.id);
-        setPurchaseList([...newPurchaseList]);
-    };
 
     return (
         <div className="App">
-            <TopElements addPurchase={addPurchase} />
+            <TopElements addPurchase={(purchase) => dispatch(createPurchase(purchase))} />
             <TotalPrice totalPrice={totalPrice}/>
             <ShoppingList
                 purchaseList={purchaseList}
-                editPurchase={editPurchase}
-                deletePurchase={deletePurchase}
-                onPlaceChange ={onPlaceChange}
-                onPriceChange ={onPriceChange}
+                editPurchase={(purchase) => dispatch(editPurchase(purchase))}
+                deletePurchase={(purchase) => dispatch(deletePurchase(purchase))}
+                onPlaceChange={(place, purchase) => dispatch(changePlace(place, purchase))}
+                onPriceChange={(price, purchase) => dispatch(changePrice(price, purchase))}
             />
         </div>
     );

@@ -7,7 +7,7 @@ import './styles.css';
 interface PurchaseListProps {
   purchaseList: IPurchase[]
   editPurchase: (arg0: IPurchase) => void;
-  deletePurchase: (arg0: number) => void;
+  deletePurchase: (arg0: IPurchase) => void;
   onPlaceChange: (arg0: string, arg1: IPurchase) => void;
   onPriceChange: (arg0: number, arg1: IPurchase) => void;
 }
@@ -50,7 +50,7 @@ const ShoppingList = ({
                 <span className="purchase-price">{purchase.price} р.</span>
                 <div className="icon-container">
                   <EditIcon onClick={() => editPurchase(purchase)}/>
-                  <DeleteIcon onClick={() => deletePurchase(purchase.id)}/>
+                  <DeleteIcon onClick={() => deletePurchase(purchase)}/>
                 </div>
               </div>
             )

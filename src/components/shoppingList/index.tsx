@@ -6,10 +6,10 @@ import './styles.css';
 
 interface PurchaseListProps {
   purchaseList: IPurchase[]
-  editPurchase: (arg0: IPurchase) => void;
-  deletePurchase: (arg0: IPurchase) => void;
-  onPlaceChange: (arg0: string, arg1: IPurchase) => void;
-  onPriceChange: (arg0: number, arg1: IPurchase) => void;
+  editPurchase: (arg0: number) => void;
+  deletePurchase: (arg0: number) => void;
+  onPlaceChange: (arg0: string, arg1: number) => void;
+  onPriceChange: (arg0: number, arg1: number) => void;
 }
 
 const ShoppingList = ({
@@ -29,17 +29,17 @@ const ShoppingList = ({
                 <input
                   className="purchase-place-input"
                   defaultValue={purchase.place}
-                  onChange={(event) =>  onPlaceChange(event.target.value, purchase)}
+                  onChange={(event) =>  onPlaceChange(event.target.value, purchase.id)}
                 />
                 <input
                   className="purchase-price-input"
                   type="number"
                   defaultValue={purchase.price}
-                  onChange={(event) => onPriceChange(Number(event.target.value), purchase)}
+                  onChange={(event) => onPriceChange(Number(event.target.value), purchase.id)}
                 />
                 <button
                   className="button-end-edit"
-                  onClick={() => editPurchase(purchase)}
+                  onClick={() => editPurchase(purchase.id)}
                 >
                   Завершить
                 </button>
@@ -49,8 +49,8 @@ const ShoppingList = ({
                 <span className="purchase-place">{index+1}) {purchase.place} {purchase.date}</span>
                 <span className="purchase-price">{purchase.price} р.</span>
                 <div className="icon-container">
-                  <EditIcon onClick={() => editPurchase(purchase)}/>
-                  <DeleteIcon onClick={() => deletePurchase(purchase)}/>
+                  <EditIcon onClick={() => editPurchase(purchase.id)}/>
+                  <DeleteIcon onClick={() => deletePurchase(purchase.id)}/>
                 </div>
               </div>
             )

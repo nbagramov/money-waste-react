@@ -1,4 +1,11 @@
-import { Action, IPurchase } from '../utils/interfaces';
+import {
+  ChangePlaceAction,
+  ChangePriceAction,
+  CreatePurchaseAction,
+  DeletePurchaseAction,
+  EditPurchaseAction,
+  IPurchase
+} from '../utils/interfaces';
 import {
   CREATE_PURCHASE,
   EDIT_PURCHASE,
@@ -7,39 +14,37 @@ import {
   CHANGE_PRICE
 } from './types';
 
-export const createPurchase = (purchase: IPurchase): Action => {
+export const createPurchase = (purchase: IPurchase): CreatePurchaseAction => {
   return {
     type: CREATE_PURCHASE,
-    purchase: purchase,
+    payload: {purchase},
   };
 };
 
-export const editPurchase = (purchase: IPurchase): Action => {
+export const editPurchase = (id: number): EditPurchaseAction => {
   return {
     type: EDIT_PURCHASE,
-    purchase: purchase,
+    payload: {id},
   };
 };
 
-export const deletePurchase = (purchase: IPurchase): Action => {
+export const deletePurchase = (id: number): DeletePurchaseAction => {
   return {
     type: DELETE_PURCHASE,
-    purchase: purchase,
+    payload: {id},
   };
 };
 
-export const changePlace = (place: string, purchase: IPurchase): Action => {
+export const changePlace = (place: string, id: number): ChangePlaceAction => {
   return {
     type: CHANGE_PLACE,
-    purchase: purchase,
-    place: place
+    payload: {id, place},
   };
 };
 
-export const changePrice = (price: number, purchase: IPurchase): Action => {
+export const changePrice = (price: number, id: number): ChangePriceAction => {
   return {
     type: CHANGE_PRICE,
-    purchase: purchase,
-    price: price
+    payload: {id, price},
   };
 };

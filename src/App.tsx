@@ -24,10 +24,10 @@ const App = (): JSX.Element => {
             <TotalPrice totalPrice={totalPrice}/>
             <ShoppingList
                 purchaseList={purchaseList}
-                editPurchase={(purchase) => dispatch(editPurchase(purchase))}
-                deletePurchase={(purchase) => dispatch(deletePurchase(purchase))}
-                onPlaceChange={(place, purchase) => dispatch(changePlace(place, purchase))}
-                onPriceChange={(price, purchase) => dispatch(changePrice(price, purchase))}
+                editPurchase={(id) => dispatch(editPurchase(id))}
+                deletePurchase={(id) => dispatch(deletePurchase(id))}
+                onPlaceChange={(place, id) => dispatch(changePlace(place, id))}
+                onPriceChange={(price, id) => dispatch(changePrice(price, id))}
             />
         </div>
     );

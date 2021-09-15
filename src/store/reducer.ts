@@ -1,4 +1,11 @@
-import {Action, IPurchase} from '../utils/interfaces';
+import {Actions,
+  ChangePlaceAction,
+  ChangePriceAction,
+  CreatePurchaseAction,
+  DeletePurchaseAction,
+  EditPurchaseAction,
+  IPurchase
+} from '../utils/interfaces';
 import {
   CREATE_PURCHASE,
   EDIT_PURCHASE,
@@ -31,27 +38,45 @@ const initialState: IPurchase[] = [
   },
 ];
 
-export const reducer = (state: IPurchase[] = initialState, action: Action): IPurchase[] => {
+export const reducer = (state: IPurchase[] = initialState, action: Actions): IPurchase[] => {
   switch (action.type) {
-    case CREATE_PURCHASE:
-      state.push(action.purchase);
-      return  [...state];
-    case EDIT_PURCHASE:
-      action.purchase.isEdit = !action.purchase.isEdit;
-      return [...state];
-    case DELETE_PURCHASE:
-      state = state.filter((purchase) => action.purchase.id !== purchase.id);
-      return [...state];
-    case CHANGE_PLACE:
-      if (action.place) {
-        action.purchase.place = action.place;
+    case CREATE_PURCHASE: {
+      const {purchase} = (action as CreatePurchaseAction).payload;
+      const newPurchaseList = [...state, purchase];
+      return [...newPurchaseList];
+    }
+    case EDIT_PURCHASE: {
+      const newPurchaseList = [...state];
+      const {id} = (action as EditPurchaseAction).payload;
+      const purchaseIndex = state.findIndex((item) => item.id === id);
+      if (purchaseIndex != -1) {
+        newPurchaseList[purchaseIndex].isEdit = !newPurchaseList[purchaseIndex].isEdit;
       }
-      return [...state];
-    case CHANGE_PRICE:
-      if (action.price) {
-        action.purchase.price = action.price;
+      return [...newPurchaseList];
+    }
+    case DELETE_PURCHASE: {
+      const {id} = (action as DeletePurchaseAction).payload;
+      const newPurchaseList = state.filter((item) => item.id !== id);
+      return [...newPurchaseList];
+    }
+    case CHANGE_PLACE: {
+      const changePlacePurchaseList = [...state];
+      const {id, place} = (action as ChangePlaceAction).payload;
+      const purchaseIndex = state.findIndex((item) => item.id === id);
+      if (purchaseIndex != -1 && place) {
+        changePlacePurchaseList[purchaseIndex].place = place;
       }
-      return [...state];
+      return [...changePlacePurchaseList];
+    }
+    case CHANGE_PRICE: {
+      const newPurchaseList = [...state];
+      const {id, price} = (action as ChangePriceAction).payload;
+      const purchaseIndex = state.findIndex((item) => item.id === id);
+      if (purchaseIndex != -1 && (price || price == 0)) {
+        newPurchaseList[purchaseIndex].price = price;
+      }
+      return [...newPurchaseList];
+    }
     default:
       return state;
   }

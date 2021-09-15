@@ -6,9 +6,42 @@ export interface IPurchase {
     isEdit: boolean,
 }
 
-export interface Action {
-    type: string,
+export interface CreatePurchaseAction {
+  type: string,
+  payload: {
     purchase: IPurchase,
-    place?: string,
-    price?: number,
+  }
 }
+
+export interface EditPurchaseAction {
+  type: string,
+  payload: {
+    id: number,
+  }
+}
+
+export interface DeletePurchaseAction {
+  type: string,
+  payload: {
+    id: number,
+  }
+}
+
+export interface ChangePlaceAction {
+  type: string,
+  payload: {
+    id: number,
+    place: string,
+  }
+}
+
+export interface ChangePriceAction {
+  type: string,
+  payload: {
+    id: number,
+    price: number,
+  }
+}
+
+
+export type Actions = CreatePurchaseAction | EditPurchaseAction | DeletePurchaseAction | ChangePlaceAction | ChangePriceAction;

@@ -38,21 +38,30 @@ const App = (): JSX.Element => {
     };
 
     const onPlaceChange = (place: string, purchase: IPurchase) => {
-        const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
-        purchaseList[purchaseIndex].place = place;
-        setPurchaseList([...purchaseList]);
+        const newPurchaseList = [...purchaseList];
+        const purchaseIndex = newPurchaseList.findIndex((item) => item.id === purchase.id);
+        if (purchaseIndex != -1) {
+            newPurchaseList[purchaseIndex].place = place;
+            setPurchaseList([...newPurchaseList]);
+        }
     };
 
     const onPriceChange = (price: number, purchase: IPurchase) => {
+        const newPurchaseList = [...purchaseList];
         const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
-        purchaseList[purchaseIndex].price = price;
-        setPurchaseList([...purchaseList]);
+        if (purchaseIndex != -1) {
+            newPurchaseList[purchaseIndex].price = price;
+            setPurchaseList([...newPurchaseList]);
+        }
     };
 
     const editPurchase = (purchase: IPurchase) => {
+        const newPurchaseList = [...purchaseList];
         const purchaseIndex = purchaseList.findIndex((item) => item.id === purchase.id);
-        purchaseList[purchaseIndex].isEdit = !purchaseList[purchaseIndex].isEdit;
-        setPurchaseList([...purchaseList]);
+        if (purchaseIndex != -1) {
+            newPurchaseList[purchaseIndex].isEdit = !newPurchaseList[purchaseIndex].isEdit;
+            setPurchaseList([...newPurchaseList]);
+        }
     };
 
     const deletePurchase = (purchaseId: number) => {

@@ -7,7 +7,6 @@ interface TopElementsProps {
   addPurchase: (arg0: IPurchase) => void;
 }
 
-// eslint-disable-next-line no-empty-function
 const TopElements = ({addPurchase}: TopElementsProps): JSX.Element => {
     const [place, setPlace] = useState<string>('');
     const [price, setPrice] = useState<number | null>(null);

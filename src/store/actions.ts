@@ -4,6 +4,8 @@ import {
   CreatePurchaseAction,
   DeletePurchaseAction,
   EditPurchaseAction,
+  GetPurchasesAction,
+  PutPurchasesAction,
   IPurchase
 } from '../utils/interfaces';
 import {
@@ -11,7 +13,9 @@ import {
   EDIT_PURCHASE,
   DELETE_PURCHASE,
   CHANGE_PLACE,
-  CHANGE_PRICE
+  CHANGE_PRICE,
+  GET_PURCHASES,
+  PUT_PURCHASES
 } from './types';
 
 export const createPurchase = (purchase: IPurchase): CreatePurchaseAction => {
@@ -21,10 +25,10 @@ export const createPurchase = (purchase: IPurchase): CreatePurchaseAction => {
   };
 };
 
-export const editPurchase = (id: number): EditPurchaseAction => {
+export const editPurchase = (purchase: IPurchase): EditPurchaseAction => {
   return {
     type: EDIT_PURCHASE,
-    payload: {id},
+    payload: {purchase},
   };
 };
 
@@ -46,5 +50,18 @@ export const changePrice = (price: number, id: number): ChangePriceAction => {
   return {
     type: CHANGE_PRICE,
     payload: {id, price},
+  };
+};
+
+export const getPurchases= (): GetPurchasesAction=> {
+  return {
+    type: GET_PURCHASES,
+  };
+};
+
+export const putPurchases = (purchases: IPurchase[]): PutPurchasesAction=> {
+  return {
+    type: PUT_PURCHASES,
+    payload: {purchases},
   };
 };

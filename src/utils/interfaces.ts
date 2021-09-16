@@ -16,7 +16,7 @@ export interface CreatePurchaseAction {
 export interface EditPurchaseAction {
   type: string,
   payload: {
-    id: number,
+    purchase: IPurchase,
   }
 }
 
@@ -43,5 +43,22 @@ export interface ChangePriceAction {
   }
 }
 
+export interface GetPurchasesAction {
+  type: string,
+}
 
-export type Actions = CreatePurchaseAction | EditPurchaseAction | DeletePurchaseAction | ChangePlaceAction | ChangePriceAction;
+export interface PutPurchasesAction {
+  type: string,
+  payload: {
+    purchases: IPurchase[],
+  }
+}
+
+
+export type Actions = CreatePurchaseAction
+  | EditPurchaseAction
+  | DeletePurchaseAction
+  | ChangePlaceAction
+  | ChangePriceAction
+  | GetPurchasesAction
+  | PutPurchasesAction;

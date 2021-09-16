@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createPurchase,
   editPurchase,
   deletePurchase,
   changePlace,
-  changePrice
+  changePrice,
+  getPurchases
 } from './store/actions';
 import TopElements from './components/topElements';
 import TotalPrice from './components/totalPrice';
@@ -17,6 +18,9 @@ const App = (): JSX.Element => {
     const dispatch = useDispatch();
     const purchaseList: IPurchase[] = useSelector<IPurchase[], IPurchase[]>(state => state);
     const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0);
+    useEffect(() => {
+      dispatch(getPurchases());
+    }, []);
 
     return (
         <div className="App">
@@ -24,7 +28,7 @@ const App = (): JSX.Element => {
             <TotalPrice totalPrice={totalPrice}/>
             <ShoppingList
                 purchaseList={purchaseList}
-                editPurchase={(id) => dispatch(editPurchase(id))}
+                editPurchase={(purchase) => dispatch(editPurchase(purchase))}
                 deletePurchase={(id) => dispatch(deletePurchase(id))}
                 onPlaceChange={(place, id) => dispatch(changePlace(place, id))}
                 onPriceChange={(price, id) => dispatch(changePrice(price, id))}

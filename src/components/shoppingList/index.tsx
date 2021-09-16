@@ -6,7 +6,7 @@ import './styles.css';
 
 interface PurchaseListProps {
   purchaseList: IPurchase[]
-  editPurchase: (arg0: number) => void;
+  editPurchase: (arg0: IPurchase) => void;
   deletePurchase: (arg0: number) => void;
   onPlaceChange: (arg0: string, arg1: number) => void;
   onPriceChange: (arg0: number, arg1: number) => void;
@@ -39,7 +39,7 @@ const ShoppingList = ({
                 />
                 <button
                   className="button-end-edit"
-                  onClick={() => editPurchase(purchase.id)}
+                  onClick={() => editPurchase(purchase)}
                 >
                   Завершить
                 </button>
@@ -49,7 +49,7 @@ const ShoppingList = ({
                 <span className="purchase-place">{index+1}) {purchase.place} {purchase.date}</span>
                 <span className="purchase-price">{purchase.price} р.</span>
                 <div className="icon-container">
-                  <EditIcon onClick={() => editPurchase(purchase.id)}/>
+                  <EditIcon onClick={() => editPurchase(purchase)}/>
                   <DeleteIcon onClick={() => deletePurchase(purchase.id)}/>
                 </div>
               </div>

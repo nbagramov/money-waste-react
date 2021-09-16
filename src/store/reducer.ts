@@ -4,6 +4,7 @@ import {Actions,
   CreatePurchaseAction,
   DeletePurchaseAction,
   EditPurchaseAction,
+  PutPurchasesAction,
   IPurchase
 } from '../utils/interfaces';
 import {
@@ -12,31 +13,11 @@ import {
   DELETE_PURCHASE,
   CHANGE_PLACE,
   CHANGE_PRICE,
+  GET_PURCHASES,
+  PUT_PURCHASES,
 } from './types';
 
-const initialState: IPurchase[] = [
-  {
-    id: 0,
-    place: 'shop1',
-    price: 10000,
-    date: '03.04.20',
-    isEdit: false,
-  },
-  {
-    id: 1,
-    place: 'shop2',
-    price: 12000,
-    date: '05.11.20',
-    isEdit: false,
-  },
-  {
-    id: 2,
-    place: 'shop3',
-    price: 8000,
-    date: '25.07.21',
-    isEdit: false,
-  },
-];
+const initialState: IPurchase[] = [];
 
 export const reducer = (state: IPurchase[] = initialState, action: Actions): IPurchase[] => {
   switch (action.type) {
@@ -47,12 +28,13 @@ export const reducer = (state: IPurchase[] = initialState, action: Actions): IPu
     }
     case EDIT_PURCHASE: {
       const newPurchaseList = [...state];
-      const {id} = (action as EditPurchaseAction).payload;
-      const purchaseIndex = state.findIndex((item) => item.id === id);
-      if (purchaseIndex != -1) {
+      const {purchase} = (action as EditPurchaseAction).payload;
+      const purchaseIndex = state.findIndex((item) => item.id === purchase.id);
+      if (purchaseIndex !== -1) {
         newPurchaseList[purchaseIndex].isEdit = !newPurchaseList[purchaseIndex].isEdit;
+        return [...newPurchaseList];
       }
-      return [...newPurchaseList];
+      return state;
     }
     case DELETE_PURCHASE: {
       const {id} = (action as DeletePurchaseAction).payload;
@@ -60,22 +42,35 @@ export const reducer = (state: IPurchase[] = initialState, action: Actions): IPu
       return [...newPurchaseList];
     }
     case CHANGE_PLACE: {
-      const changePlacePurchaseList = [...state];
+      const newPurchaseList = [...state];
       const {id, place} = (action as ChangePlaceAction).payload;
       const purchaseIndex = state.findIndex((item) => item.id === id);
-      if (purchaseIndex != -1 && place) {
-        changePlacePurchaseList[purchaseIndex].place = place;
+      if (purchaseIndex !== -1 && place) {
+        newPurchaseList[purchaseIndex].place = place;
+        return [...newPurchaseList];
       }
-      return [...changePlacePurchaseList];
+      return state;
     }
     case CHANGE_PRICE: {
       const newPurchaseList = [...state];
       const {id, price} = (action as ChangePriceAction).payload;
       const purchaseIndex = state.findIndex((item) => item.id === id);
-      if (purchaseIndex != -1 && (price || price == 0)) {
+      if (purchaseIndex !== -1 && (price || price === 0)) {
         newPurchaseList[purchaseIndex].price = price;
+        return [...newPurchaseList];
       }
-      return [...newPurchaseList];
+      return state;
+    }
+    case GET_PURCHASES: {
+      return state;
+    }
+    case PUT_PURCHASES: {
+      const {purchases} = (action as PutPurchasesAction).payload;
+      if (purchases) {
+        const newPurchaseList = [...purchases];
+        return [...newPurchaseList];
+      }
+      return state;
     }
     default:
       return state;

@@ -6,6 +6,11 @@ export interface IPurchase {
     isEdit: boolean,
 }
 
+export interface State {
+  purchases: IPurchase[],
+  error: boolean
+}
+
 export interface CreatePurchaseAction {
   type: string,
   payload: {
@@ -47,7 +52,7 @@ export interface GetPurchasesAction {
   type: string,
 }
 
-export interface PutPurchasesAction {
+export interface GetPurchasesResultAction {
   type: string,
   payload: {
     purchases: IPurchase[],
@@ -61,4 +66,4 @@ export type Actions = CreatePurchaseAction
   | ChangePlaceAction
   | ChangePriceAction
   | GetPurchasesAction
-  | PutPurchasesAction;
+  | GetPurchasesResultAction;

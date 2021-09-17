@@ -4,71 +4,117 @@ import {Actions,
   CreatePurchaseAction,
   DeletePurchaseAction,
   EditPurchaseAction,
-  PutPurchasesAction,
-  IPurchase
+  GetPurchasesResultAction,
+  State
 } from '../utils/interfaces';
 import {
-  CREATE_PURCHASE,
-  EDIT_PURCHASE,
-  DELETE_PURCHASE,
+  CREATE_PURCHASE_FAIL,
+  CREATE_PURCHASE_SUCCESS,
+  EDIT_PURCHASE_SUCCESS,
+  EDIT_PURCHASE_FAIL,
+  DELETE_PURCHASE_SUCCESS,
+  DELETE_PURCHASE_FAIL,
+  GET_PURCHASES_SUCCESS,
+  GET_PURCHASES_FAIL,
   CHANGE_PLACE,
   CHANGE_PRICE,
-  GET_PURCHASES,
-  PUT_PURCHASES,
 } from './types';
 
-const initialState: IPurchase[] = [];
+const initialState: State = {purchases : [], error: false};
 
-export const reducer = (state: IPurchase[] = initialState, action: Actions): IPurchase[] => {
+export const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
-    case CREATE_PURCHASE: {
+    case CREATE_PURCHASE_SUCCESS: {
       const {purchase} = (action as CreatePurchaseAction).payload;
-      const newPurchaseList = [...state, purchase];
-      return [...newPurchaseList];
+      const newPurchaseList = [...state.purchases, purchase];
+      return {
+        purchases: [...newPurchaseList],
+        error: false
+      };
     }
-    case EDIT_PURCHASE: {
-      const newPurchaseList = [...state];
+    case CREATE_PURCHASE_FAIL: {
+      const newPurchaseList = [...state.purchases];
+      return {
+        purchases: [...newPurchaseList],
+        error: true
+      };
+    }
+    case EDIT_PURCHASE_SUCCESS: {
+      const newPurchaseList = [...state.purchases];
       const {purchase} = (action as EditPurchaseAction).payload;
-      const purchaseIndex = state.findIndex((item) => item.id === purchase.id);
+      const purchaseIndex = state.purchases.findIndex((item) => item.id === purchase.id);
       if (purchaseIndex !== -1) {
         newPurchaseList[purchaseIndex].isEdit = !newPurchaseList[purchaseIndex].isEdit;
-        return [...newPurchaseList];
+        return {
+          purchases: [...newPurchaseList],
+          error: false
+        };
       }
       return state;
     }
-    case DELETE_PURCHASE: {
+    case EDIT_PURCHASE_FAIL: {
+      const newPurchaseList = [...state.purchases];
+      return {
+        purchases: [...newPurchaseList],
+        error: true
+      };
+    }
+    case DELETE_PURCHASE_SUCCESS: {
       const {id} = (action as DeletePurchaseAction).payload;
-      const newPurchaseList = state.filter((item) => item.id !== id);
-      return [...newPurchaseList];
+      const newPurchaseList = state.purchases.filter((item) => item.id !== id);
+      return {
+        purchases: [...newPurchaseList],
+        error: false
+      };
+    }
+    case DELETE_PURCHASE_FAIL: {
+      const newPurchaseList = [...state.purchases];
+      return {
+        purchases: [...newPurchaseList],
+        error: true
+      };
+    }
+    case GET_PURCHASES_SUCCESS: {
+      const {purchases} = (action as GetPurchasesResultAction).payload;
+      if (purchases) {
+        const newPurchaseList = [...purchases];
+        return {
+          purchases: [...newPurchaseList],
+          error: false
+        };
+      }
+      return state;
+    }
+    case GET_PURCHASES_FAIL: {
+      const newPurchaseList = [...state.purchases];
+      return {
+        purchases: [...newPurchaseList],
+        error: true
+      };
     }
     case CHANGE_PLACE: {
-      const newPurchaseList = [...state];
+      const newPurchaseList = [...state.purchases];
       const {id, place} = (action as ChangePlaceAction).payload;
-      const purchaseIndex = state.findIndex((item) => item.id === id);
+      const purchaseIndex = state.purchases.findIndex((item) => item.id === id);
       if (purchaseIndex !== -1 && place) {
         newPurchaseList[purchaseIndex].place = place;
-        return [...newPurchaseList];
+        return {
+          purchases: [...newPurchaseList],
+          error: false
+        };
       }
       return state;
     }
     case CHANGE_PRICE: {
-      const newPurchaseList = [...state];
+      const newPurchaseList = [...state.purchases];
       const {id, price} = (action as ChangePriceAction).payload;
-      const purchaseIndex = state.findIndex((item) => item.id === id);
+      const purchaseIndex = state.purchases.findIndex((item) => item.id === id);
       if (purchaseIndex !== -1 && (price || price === 0)) {
         newPurchaseList[purchaseIndex].price = price;
-        return [...newPurchaseList];
-      }
-      return state;
-    }
-    case GET_PURCHASES: {
-      return state;
-    }
-    case PUT_PURCHASES: {
-      const {purchases} = (action as PutPurchasesAction).payload;
-      if (purchases) {
-        const newPurchaseList = [...purchases];
-        return [...newPurchaseList];
+        return {
+          purchases: [...newPurchaseList],
+          error: false
+        };
       }
       return state;
     }

@@ -6,7 +6,16 @@ import {
   DeletePurchaseAction,
   IPurchase
 } from '../utils/interfaces';
-import { putPurchases } from './actions';
+import {
+  createPurchaseSuccess,
+  createPurchaseFail,
+  deletePurchaseSuccess,
+  deletePurchaseFail,
+  editPurchaseSuccess,
+  editPurchaseFail,
+  getPurchasesSuccess,
+  getPurchasesFail
+} from './actions';
 import {
   CREATE_PURCHASE,
   EDIT_PURCHASE,
@@ -17,10 +26,10 @@ import {
 /** GET PURCHASES */
 function* workerLoadPurchases() {
   try {
-    const data: IPurchase[] = yield axios.get('http://localhost:8000/').then(res => res.data);
-    yield put(putPurchases(data));
+    const data: IPurchase[] = yield axios.get('http://localhost:8000/purchases/').then(res => res.data);
+    yield put(getPurchasesSuccess(data));
   } catch (e) {
-    console.error(e);
+    yield put(getPurchasesFail());
   }
 }
 
@@ -31,9 +40,9 @@ export function* watcherLoadPurchases(): Generator {
 /** CREATE PURCHASE */
 function* workerCreatePurchases({ payload }: CreatePurchaseAction) {
   try {
-    const data: IPurchase[] = yield axios.get('http://localhost:8000/').then(res => res.data);
+    const data: IPurchase[] = yield axios.get('http://localhost:8000/purchases/').then(res => res.data);
     if (!data.some((item) => item.id === payload.purchase.id)) {
-      yield axios.post(`http://localhost:8000/createPurchase/?=id${payload.purchase.id}`, {
+      yield axios.post(`http://localhost:8000/purchases/?=id${payload.purchase.id}`, {
         id: payload.purchase.id,
         place: payload.purchase.place,
         price: payload.purchase.price,
@@ -41,10 +50,11 @@ function* workerCreatePurchases({ payload }: CreatePurchaseAction) {
         isEdit: payload.purchase.isEdit,
       });
     }
-    const newData: IPurchase[] = yield axios.get('http://localhost:8000/').then(res => res.data);
-    yield put(putPurchases(newData));
+    yield put(createPurchaseSuccess(payload.purchase));
+    const newData: IPurchase[] = yield axios.get('http://localhost:8000/purchases/').then(res => res.data);
+    yield put(getPurchasesSuccess(newData));
   } catch (e) {
-    console.error(e);
+    yield put(createPurchaseFail(payload.purchase));
   }
 }
 
@@ -55,15 +65,16 @@ export function* watcherCreatePurchases(): Generator {
 /** UPDATE PURCHASE */
 function* workerUpdatePurchases({ payload }: EditPurchaseAction) {
   try {
-    yield axios.patch(`http://localhost:8000/updatePurchase?id=${payload.purchase.id}`, {
+    yield axios.patch(`http://localhost:8000/purchases/?id=${payload.purchase.id}`, {
       id: payload.purchase.id,
       place: payload.purchase.place,
       price: payload.purchase.price,
       date: payload.purchase.date,
-      isEdit: payload.purchase.isEdit,
+      isEdit: false,
     });
+    yield put(editPurchaseSuccess(payload.purchase));
   } catch (e) {
-    console.error(e);
+    yield put(editPurchaseFail(payload.purchase));
   }
 }
 
@@ -74,9 +85,10 @@ export function* watcherUpdatePurchases(): Generator {
 /** DELETE PURCHASE */
 function* workerRemovePurchases({ payload }: DeletePurchaseAction) {
   try {
-    yield axios.delete(`http://localhost:8000/deletePurchase/?id=${payload.id}`);
+    yield axios.delete(`http://localhost:8000/purchases/?id=${payload.id}`);
+    yield put(deletePurchaseSuccess(payload.id));
   } catch (e) {
-    console.error(e);
+    yield put(deletePurchaseFail(payload.id));
   }
 }
 

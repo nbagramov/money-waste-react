@@ -33,9 +33,8 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       };
     }
     case CREATE_PURCHASE_FAIL: {
-      const newPurchaseList = [...state.purchases];
       return {
-        purchases: [...newPurchaseList],
+        ...state,
         error: true
       };
     }
@@ -53,9 +52,8 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return state;
     }
     case EDIT_PURCHASE_FAIL: {
-      const newPurchaseList = [...state.purchases];
       return {
-        purchases: [...newPurchaseList],
+        ...state,
         error: true
       };
     }
@@ -68,9 +66,8 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       };
     }
     case DELETE_PURCHASE_FAIL: {
-      const newPurchaseList = [...state.purchases];
       return {
-        purchases: [...newPurchaseList],
+        ...state,
         error: true
       };
     }
@@ -86,9 +83,8 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return state;
     }
     case GET_PURCHASES_FAIL: {
-      const newPurchaseList = [...state.purchases];
       return {
-        purchases: [...newPurchaseList],
+        ...state,
         error: true
       };
     }

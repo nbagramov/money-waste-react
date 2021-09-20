@@ -8,8 +8,8 @@ interface PurchaseListProps {
   purchaseList: IPurchase[]
   editPurchase: (arg0: IPurchase) => void;
   deletePurchase: (arg0: number) => void;
-  onPlaceChange: (arg0: string, arg1: IPurchase) => void;
-  onPriceChange: (arg0: number, arg1: IPurchase) => void;
+  onPlaceChange: (arg0: string, arg1: number) => void;
+  onPriceChange: (arg0: number, arg1: number) => void;
 }
 
 const ShoppingList = ({
@@ -29,13 +29,13 @@ const ShoppingList = ({
                 <input
                   className="purchase-place-input"
                   defaultValue={purchase.place}
-                  onChange={(event) =>  onPlaceChange(event.target.value, purchase)}
+                  onChange={(event) =>  onPlaceChange(event.target.value, purchase.id)}
                 />
                 <input
                   className="purchase-price-input"
                   type="number"
                   defaultValue={purchase.price}
-                  onChange={(event) => onPriceChange(Number(event.target.value), purchase)}
+                  onChange={(event) => onPriceChange(Number(event.target.value), purchase.id)}
                 />
                 <button
                   className="button-end-edit"

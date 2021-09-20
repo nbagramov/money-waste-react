@@ -5,6 +5,7 @@
 .purchase-container {
     display: flex;
 }
+
 .purchase-container-edit {
     display: flex;
     justify-content: space-between;
@@ -15,7 +16,6 @@
     font-size: 16px;
     text-align: start;
 }
-
 
 .purchase-price {
     width: 30%;

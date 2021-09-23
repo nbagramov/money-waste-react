@@ -10,7 +10,7 @@ interface EditContainerProps {
   onPriceChange: (arg0: number, arg1: number) => void;
 }
 
-export const EditContainer = ({
+const EditContainer = ({
   purchase,
   editPurchase,
   onPlaceChange,
@@ -38,3 +38,9 @@ export const EditContainer = ({
     </div>
   );
 };
+
+const areEqual = (prevProps: EditContainerProps, nextProps: EditContainerProps) => {
+  return prevProps.purchase === nextProps.purchase;
+};
+
+export default React.memo(EditContainer, areEqual);

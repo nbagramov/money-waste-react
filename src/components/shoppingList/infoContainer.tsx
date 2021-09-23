@@ -12,7 +12,7 @@ interface InfoContainerProps {
   deletePurchase: (arg0: number) => void;
 }
 
-export const InfoContainer = ({
+const InfoContainer = ({
   purchase,
   index,
   editPurchase,
@@ -29,3 +29,9 @@ export const InfoContainer = ({
     </div>
   );
 };
+
+const areEqual = (prevProps: InfoContainerProps, nextProps: InfoContainerProps) => {
+  return prevProps.purchase === nextProps.purchase && prevProps.index === nextProps.index;
+};
+
+export default React.memo(InfoContainer, areEqual);

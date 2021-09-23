@@ -1,6 +1,6 @@
 import React from 'react';
-import { EditContainer } from './editContainer';
-import { InfoContainer } from './infoContainer';
+import EditContainer from './editContainer';
+import InfoContainer from './infoContainer';
 import { IPurchase } from '../../utils/interfaces';
 import './styles.css';
 

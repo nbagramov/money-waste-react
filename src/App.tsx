@@ -12,11 +12,12 @@ import TopElements from './components/topElements';
 import TotalPrice from './components/totalPrice';
 import ShoppingList from './components/shoppingList';
 import { IPurchase, State } from './utils/interfaces';
+import { Selector } from './utils/selector';
 import './App.css';
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch();
-  const purchaseList: IPurchase[] = useSelector<State, IPurchase[]>((state) => state.purchases);
+  const purchaseList: IPurchase[] = useSelector<State, IPurchase[]>(Selector);
   const totalPrice = purchaseList.reduce((total , item) => total + item.price, 0);
   useEffect(() => {
     dispatch(getPurchases());

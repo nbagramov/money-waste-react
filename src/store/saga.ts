@@ -26,7 +26,7 @@ import {
 /** GET PURCHASES */
 function* workerLoadPurchases() {
   try {
-    const data: IPurchase[] = yield axios.get('http://localhost:8000/purchases/').then(res => res.data);
+    const data: IPurchase[] = yield axios.get('https://purchases-list-nbagr.herokuapp.com/purchases/').then(res => res.data);
     yield put(getPurchasesSuccess(data));
   } catch (e) {
     yield put(getPurchasesFail());
@@ -40,9 +40,9 @@ export function* watcherLoadPurchases(): Generator {
 /** CREATE PURCHASE */
 function* workerCreatePurchases({ payload }: CreatePurchaseAction) {
   try {
-    const data: IPurchase[] = yield axios.get('http://localhost:8000/purchases/').then(res => res.data);
+    const data: IPurchase[] = yield axios.get('https://purchases-list-nbagr.herokuapp.com/purchases/').then(res => res.data);
     if (!data.some((item) => item.id === payload.purchase.id)) {
-      yield axios.post(`http://localhost:8000/purchases/?=id${payload.purchase.id}`, {
+      yield axios.post(`https://purchases-list-nbagr.herokuapp.com/purchases/?=id${payload.purchase.id}`, {
         id: payload.purchase.id,
         place: payload.purchase.place,
         price: payload.purchase.price,
@@ -51,7 +51,7 @@ function* workerCreatePurchases({ payload }: CreatePurchaseAction) {
       });
     }
     yield put(createPurchaseSuccess(payload.purchase));
-    const newData: IPurchase[] = yield axios.get('http://localhost:8000/purchases/').then(res => res.data);
+    const newData: IPurchase[] = yield axios.get('https://purchases-list-nbagr.herokuapp.com/purchases/').then(res => res.data);
     yield put(getPurchasesSuccess(newData));
   } catch (e) {
     yield put(createPurchaseFail(payload.purchase));
@@ -65,7 +65,7 @@ export function* watcherCreatePurchases(): Generator {
 /** UPDATE PURCHASE */
 function* workerUpdatePurchases({ payload }: EditPurchaseAction) {
   try {
-    yield axios.patch(`http://localhost:8000/purchases/?id=${payload.purchase.id}`, {
+    yield axios.patch(`https://purchases-list-nbagr.herokuapp.com/purchases/?id=${payload.purchase.id}`, {
       id: payload.purchase.id,
       place: payload.purchase.place,
       price: payload.purchase.price,
@@ -85,7 +85,7 @@ export function* watcherUpdatePurchases(): Generator {
 /** DELETE PURCHASE */
 function* workerRemovePurchases({ payload }: DeletePurchaseAction) {
   try {
-    yield axios.delete(`http://localhost:8000/purchases/?id=${payload.id}`);
+    yield axios.delete(`https://purchases-list-nbagr.herokuapp.com/purchases/?id=${payload.id}`);
     yield put(deletePurchaseSuccess(payload.id));
   } catch (e) {
     yield put(deletePurchaseFail(payload.id));
